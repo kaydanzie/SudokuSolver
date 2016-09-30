@@ -4,20 +4,30 @@ import java.util.ArrayList;
 public class Multithread{
     
     String[] rows = new String[9];
+    ArrayList<Integer> rowValues = new ArrayList<Integer>();
 
      public static void main(String []args){
         Multithread m = new Multithread();
-        m.readIn("Test1.txt");
+        m.readIn("Test.txt");
         
         for(int i=0; i<m.rows.length; i++){
             System.out.println(m.rows[i]);
         }
         
         
-        ThreadRunnable test = new ThreadRunnable(m.rows[0]);
-        test.start();
-        test.join();
-        System.out.println(test.getValue());
+        ThreadRunnable test;
+        //thread join should wait for run() to finish
+        for(int i=0; i<m.rows.length; i++){
+            test = new ThreadRunnable(m.rows[i]);
+            test.start();
+            test.join();
+            System.out.println(test.getValue());
+            m.rowValues.add(test.getValue());
+        }
+
+        if(!m.rowValues.contains(1)){
+            System.out.println("file valid");
+        }
      }
      
      //read file, put lines as strings into array "rows"
@@ -40,7 +50,6 @@ public class Multithread{
      }//end readIn method
      
      
-     
 }
 
 
@@ -55,7 +64,7 @@ class ThreadRunnable implements Runnable{
     
     
     public void run(){
-        String[] stringNums = oneRow.split(", ");
+        String[] stringNums = oneRow.split(",");
         ArrayList<Integer> nums = new ArrayList<Integer>();
         
         for(int i=0; i<stringNums.length; i++){
@@ -67,7 +76,6 @@ class ThreadRunnable implements Runnable{
             //leave loop immediately
             if(!nums.contains(k)){
                 this.value = k;
-                //System.out.println(value);
                 break;
             }
         }
@@ -77,12 +85,11 @@ class ThreadRunnable implements Runnable{
     
     public void join(){
         try{
-            Thread.sleep(2000, 500);
+            Thread.sleep(1000, 500);
         }
         catch(InterruptedException e){
             
         }
-        
     }
     
     
@@ -98,3 +105,5 @@ class ThreadRunnable implements Runnable{
         return value;
     }
 }
+
+
