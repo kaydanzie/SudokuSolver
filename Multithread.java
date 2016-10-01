@@ -1,35 +1,56 @@
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Multithread{
     
     String[] rows = new String[9];
     ArrayList<Integer> rowValues = new ArrayList<Integer>();
+    String[] cols = new String[]{"","","","","","","","",""};//so not null
 
-     public static void main(String []args){
+
+    public static void main(String []args){
         Multithread m = new Multithread();
         m.readIn("Test.txt");
-        
-        for(int i=0; i<m.rows.length; i++){
-            System.out.println(m.rows[i]);
-        }
-        
-        
-        ThreadRunnable test;
+
+
+        RowThread test;
         //thread join should wait for run() to finish
         for(int i=0; i<m.rows.length; i++){
-            test = new ThreadRunnable(m.rows[i]);
+            test = new RowThread(m.rows[i]);
             test.start();
             test.join();
-            System.out.println(test.getValue());
+            p(test.getValue());
             m.rowValues.add(test.getValue());
         }
 
+        //should be if all values aren't 0
+        //values are index of incorrect number
         if(!m.rowValues.contains(1)){
-            System.out.println("file valid");
+            p("file valid");
         }
-     }
+
+
+        String oneRow;
+        for(int i=0; i<9; i++){
+            oneRow = m.rows[i];
+            oneRow = oneRow.replaceAll(",", "");
+
+            //now go through elements of one row
+            //without changing rows (need 2 loops)
+            for(int k=0; k<9; k++){
+                m.cols[k] += oneRow.charAt(k);
+            }
+        }
+    }
      
+
+    //temp shortened print function
+    public static void p(Object a){
+        System.out.println(a);
+    }
+
+
+
      //read file, put lines as strings into array "rows"
      public void readIn(String fileN){
          
@@ -53,12 +74,12 @@ public class Multithread{
 }
 
 
-class ThreadRunnable implements Runnable{
+class RowThread implements Runnable{
     public Thread t;
     public String oneRow;
     public int value =0;
     
-    ThreadRunnable(String oneRow){
+    RowThread(String oneRow){
         this.oneRow = oneRow;
     }
     
