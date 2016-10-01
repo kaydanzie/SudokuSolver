@@ -1,23 +1,22 @@
-
 import java.util.*;
 
-class RowThread implements Runnable{
+class ColThread implements Runnable{
     public Thread t;
-    public String oneRow;
+    public String oneCol;
     public int value =0;
     
-    RowThread(String oneRow){
-        this.oneRow = oneRow;
+    ColThread(String oneCol){
+        this.oneCol = oneCol;
     }
     
     
     public void run(){
-
+        
         for(int k=1; k<9; k++){
             //if k number is not in row, return which number
             //leave loop immediately
-            String rk = ""+k+"";
-            if(!oneRow.contains(rk)){
+            String ck = ""+k+"";
+            if(!oneCol.contains(ck)){
                 this.value = k;
                 break;
             }
@@ -38,7 +37,7 @@ class RowThread implements Runnable{
     
     public void start(){
         if(t==null){
-            t = new Thread(this, oneRow);
+            t = new Thread(this, oneCol);
             t.start();
         }
     }
