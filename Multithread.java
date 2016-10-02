@@ -4,9 +4,9 @@ import java.util.*;
 public class Multithread{
     
     String[] rows = new String[9];
-    ArrayList<Integer> rowValues = new ArrayList<Integer>();//has indexes of incorrect, or 0s
+    ArrayList<String> rowValues = new ArrayList<String>();//has indexes of incorrect, or 0s
     String[] cols = new String[]{"","","","","","","","",""};//so not null
-    ArrayList<Integer> colValues = new ArrayList<Integer>();
+    ArrayList<String> colValues = new ArrayList<String>();
 
 
     //row and colValues: value is number that's missing
@@ -33,14 +33,17 @@ public class Multithread{
         }
 
 
-
+        //every row has 9 possible incorrect
+        //fill arrays for correct or incorrect values
+        //rows and columns separate
         RowThread rowT;
         ColThread colT;
         for(int i=0; i<9; i++){
             rowT = new RowThread(m.rows[i]);
             rowT.start();
             rowT.join();
-            p("row "+(i+1)+": "+rowT.getValue());
+            //p("row "+(i+1)+": "+rowT.getValue());
+            p(rowT.getValue());
             m.rowValues.add(rowT.getValue());
 
 

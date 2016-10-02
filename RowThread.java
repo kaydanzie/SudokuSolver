@@ -1,10 +1,9 @@
 
-import java.util.*;
 
 class RowThread implements Runnable{
     public Thread t;
     public String oneRow;
-    public int value =0;
+    public String value = "";
     
     RowThread(String oneRow){
         this.oneRow = oneRow;
@@ -13,14 +12,20 @@ class RowThread implements Runnable{
     
     public void run(){
 
-        for(int k=1; k<9; k++){
+        for(int k=1; k<=9; k++){
             //if k number is not in row, return which number
             //leave loop immediately
             String rk = ""+k+"";
             if(!oneRow.contains(rk)){
-                this.value = k;
-                break;
+                this.value += k;
             }
+            else{
+                this.value += "0";
+            }
+
+            // for(int j=0; j<9; j++){
+                
+            // }
         }
     }
     
@@ -44,7 +49,7 @@ class RowThread implements Runnable{
     }
     
     
-    public int getValue(){
+    public String getValue(){
         return value;
     }
 }
