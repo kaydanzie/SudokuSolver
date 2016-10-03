@@ -1,3 +1,4 @@
+import java.util.*;
 
 class ColThread implements Runnable{
     public Thread t;
@@ -10,17 +11,34 @@ class ColThread implements Runnable{
     
     
     public void run(){
+
+
+        ArrayList<String> asArray = new ArrayList<String>();
+        ArrayList<String> endArray = new ArrayList<String>();
+        ArrayList<Integer> occur = new ArrayList<Integer>();
+        for(int i=0; i<oneCol.length(); i++){
+            String temp = ""+oneCol.charAt(i)+"";
+            asArray.add(temp);
+
+            endArray.add(i, "0");
+        }
         
         for(int k=1; k<=9; k++){
-            //if k number is not in row, return which number
-            //leave loop immediately
+
             String ck = ""+k+"";
-            if(!oneCol.contains(ck)){
-                this.value += k;
+            if(Collections.frequency(asArray, ck) > 1){
+                
+                occur = allOccur(asArray, ck);
+
+                for(int j=0; j<occur.size(); j++){
+                    endArray.set(occur.get(j), "1");
+                }
             }
-            else{
-                this.value += "0";
-            }
+        }
+
+
+        for(int h=0; h<endArray.size(); h++){
+            this.value += endArray.get(h);
         }
     }
     
@@ -46,5 +64,18 @@ class ColThread implements Runnable{
     
     public String getValue(){
         return value;
+    }
+
+
+
+    public ArrayList<Integer> allOccur(ArrayList<String> lis, String find){
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        
+        for(int i=0; i<lis.size(); i++){
+            if(lis.get(i).equals(find)){
+                ret.add(i);
+            }
+        }
+        return ret;
     }
 }

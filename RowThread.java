@@ -1,4 +1,4 @@
-
+import java.util.*;
 
 class RowThread implements Runnable{
     public Thread t;
@@ -12,20 +12,39 @@ class RowThread implements Runnable{
     
     public void run(){
 
+        ArrayList<String> asArray = new ArrayList<String>();
+        ArrayList<String> endArray = new ArrayList<String>();
+        ArrayList<Integer> occur = new ArrayList<Integer>();
+        for(int i=0; i<oneRow.length(); i++){
+            String temp = ""+oneRow.charAt(i)+"";
+            asArray.add(temp);
+
+            endArray.add(i, "0");
+        }
+
         for(int k=1; k<=9; k++){
-            //if k number is not in row, return which number
-            //leave loop immediately
-            String rk = ""+k+"";
-            if(!oneRow.contains(rk)){
-                this.value += k;
-            }
-            else{
-                this.value += "0";
+            
+            String rk = ""+ k + "";
+
+            //check if value rk shows up more than once in row
+            if(Collections.frequency(asArray, rk) > 1){
+                
+                //get indexes of where rk occurs
+                //more than once
+                
+                occur = allOccur(asArray, rk);
+
+                //put 1 in indeces of repeated values
+                for(int j=0; j<occur.size(); j++){
+                    endArray.set(occur.get(j), "1");
+                }
             }
 
-            // for(int j=0; j<9; j++){
-                
-            // }
+        }
+
+        //change from array to concatenated string to be returned
+        for(int h=0; h<endArray.size(); h++){
+            this.value += endArray.get(h);
         }
     }
     
@@ -51,5 +70,17 @@ class RowThread implements Runnable{
     
     public String getValue(){
         return value;
+    }
+
+
+    public ArrayList<Integer> allOccur(ArrayList<String> lis, String find){
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        
+        for(int i=0; i<lis.size(); i++){
+            if(lis.get(i).equals(find)){
+                ret.add(i);
+            }
+        }
+        return ret;
     }
 }
