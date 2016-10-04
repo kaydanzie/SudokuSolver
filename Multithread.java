@@ -65,10 +65,13 @@ public class Multithread{
         for(int a=0; a<9; a++){
             temp += m.rows[a]+",";
         }
+
+        //return [r1c1, r1c2, r1c3, r2c1, r2c2, r2c3, r3c1, r3c2, r3c3]
         SquareThread sqt = new SquareThread(temp);
         sqt.start();
         sqt.join();
-
+        //can't necessarily narrow it down, which is actually wrong if there are duplicates
+        p(sqt.getValue());
     }
      
 
