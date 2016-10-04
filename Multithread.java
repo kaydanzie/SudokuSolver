@@ -7,7 +7,7 @@ public class Multithread{
     ArrayList<String> rowValues = new ArrayList<String>();//has locations of incorrect, or 0s
     String[] cols = new String[]{"","","","","","","","",""};//fill so not null when appending values
     ArrayList<String> colValues = new ArrayList<String>();
-
+    boolean correct = true;
 
 
     public static void main(String []args){
@@ -46,13 +46,28 @@ public class Multithread{
             
             //if the same cell in row and column have a 1, print location
             //add 1 to printout make it not 0-index based
-            String tempR = m.rowValues.get(j);
+            String tempR = m.rowValues.get(row);
             for(int a=0; a<9; a++){
                 if(tempR.charAt(row)==('1') && m.colValues.get(a).charAt(row)=='1'){
                     p("Incorrect value at row "+(row+1)+ " column "+(a+1));
+                    m.correct = false;
                 }
             }
         }
+
+        //correct never changed to false
+        //in previous for loop
+        if(m.correct) p("Puzzle is valid.");
+
+
+        //make single string
+        String temp = "";
+        for(int a=0; a<9; a++){
+            temp += m.rows[a]+",";
+        }
+        SquareThread sqt = new SquareThread(temp);
+        sqt.start();
+        sqt.join();
 
     }
      
