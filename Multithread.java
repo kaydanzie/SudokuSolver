@@ -36,21 +36,16 @@ public class Multithread{
         ColThread colT;
         //one row/col at a time
         //returns whether the value in the cell is repeated elsewhere in row/col
-        //match 1s in rows and cols to see which repeated value is incorrect
         for(int i=0; i<9; i++){
             rowT = new RowThread(m.rows[i]);
             rowT.start();
             rowT.join();
-            p(m.rows[i]);
-            p(rowT.getValue());
             m.rowValues.add(rowT.getValue());
 
 
             colT = new ColThread(m.cols[i]);
             colT.start();
             colT.join();
-            p(m.cols[i]);
-            p(colT.getValue());
             m.colValues.add(colT.getValue());
         }
 
@@ -84,8 +79,11 @@ public class Multithread{
         SquareThread sqt = new SquareThread(temp);
         sqt.start();
         sqt.join();
-        //can't necessarily narrow it down, which is actually wrong if there are duplicates
-        p(sqt.getValue());
+        String allSquares = sqt.getValue();
+        int squareNum = 1;
+        
+        //can't necessarily narrow down which is actually wrong if there are duplicates
+
     }
      
 

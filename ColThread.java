@@ -46,7 +46,7 @@ class ColThread implements Runnable{
     
     public void join(){
         try{
-            Thread.sleep(1000, 500);
+            Thread.sleep(100, 500);
         }
         catch(InterruptedException e){
             
