@@ -12,11 +12,21 @@ public class Multithread{
 
     public static void main(String []args){
         Multithread m = new Multithread();
-        m.readIn("Test.txt");
+        m.readIn("Test3.txt");
 
 
         //get cols from rows
-        
+         //get cols from rows
+         String oneRow;
+         for(int i=0; i<9; i++){
+             oneRow = m.rows[i];
+ 
+             //now go through elements of one row
+             //without changing rows (need 2 loops)
+             for(int k=0; k<9; k++){
+                 m.cols[k] += oneRow.charAt(k);
+             }
+          }        
 
 
         //every row has 9 possible incorrect
@@ -31,12 +41,16 @@ public class Multithread{
             rowT = new RowThread(m.rows[i]);
             rowT.start();
             rowT.join();
+            p(m.rows[i]);
+            p(rowT.getValue());
             m.rowValues.add(rowT.getValue());
 
 
             colT = new ColThread(m.cols[i]);
             colT.start();
             colT.join();
+            p(m.cols[i]);
+            p(colT.getValue());
             m.colValues.add(colT.getValue());
         }
 
@@ -60,7 +74,7 @@ public class Multithread{
         if(m.correct) p("Puzzle is valid.");
 
 
-        //make single string
+        //make single string to pass to square thread
         String temp = "";
         for(int a=0; a<9; a++){
             temp += m.rows[a]+",";
